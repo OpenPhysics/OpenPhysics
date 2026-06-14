@@ -1,6 +1,9 @@
 [submodule ".github"]
 	path = .github
 	url = git@github.com:OpenPhysics/.github.git
+[submodule "Baton"]
+	path = Baton
+	url = git@github.com:OpenPhysics/Baton.git
 [submodule "DopplerEffect"]
 	path = DopplerEffect
 	url = git@github.com:OpenPhysics/DopplerEffect.git
@@ -39,7 +42,7 @@
 	url = git@github.com:OpenPhysics/TemplateSingleSim.git
 [submodule "TheRamp"]
 	path = TheRamp
-	url = https://github.com/OpenPhysics/TheRamp.git
+	url = git@github.com:OpenPhysics/TheRamp.git
 [submodule "TrackLab"]
 	path = TrackLab
 	url = git@github.com:OpenPhysics/TrackLab.git
