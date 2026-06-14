@@ -50,9 +50,11 @@ details derived from model Properties).
 ### 3. Keyboard navigation & help
 
 - Each `ScreenView` establishes an explicit traversal order, interactive nodes in order
-  with Reset All last. **`ScreenView` throws if you set `pdomOrder` on itself** — instead add a
-  lightweight wrapper `Node` child whose `pdomOrder` "borrows" the interactive nodes
-  (`this.addChild( new Node( { pdomOrder: [ … ] } ) )`), as in the template and TrackLab.
+  with Reset All last. **`ScreenView` throws if you set `pdomOrder` on itself.** Use either:
+  (a) a lightweight wrapper `Node` child whose `pdomOrder` "borrows" the interactive nodes
+  (`this.addChild( new Node( { pdomOrder: [ … ] } ) )`, as in the template, TheRamp, TrackLab); or
+  (b) the protected `pdomPlayAreaNode` / `pdomControlAreaNode` — add interactive nodes to them
+  directly (the PhET-idiomatic structure, as in OscillationsAndChaos). Pick one per sim.
 - Every draggable object is operable from the keyboard via `KeyboardDragListener`
   (or `KeyboardListener` for discrete controls).
 - Each screen provides a `*KeyboardHelpContent` (extends `TwoColumnKeyboardHelpContent`)
