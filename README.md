@@ -85,7 +85,3 @@ git switch -c my-change
 # ...edit, commit, push...
 ```
 
-Shared conventions (tech stack, bootstrap chain, CI wiring) are documented in the org
-[`.github/CLAUDE.md`](https://github.com/OpenPhysics/.github/blob/main/CLAUDE.md);
-accessibility in [`Baton/ACCESSIBILITY.md`](https://github.com/OpenPhysics/Baton/blob/main/ACCESSIBILITY.md);
-fleet conventions in [`Baton/CONVENTIONS.md`](https://github.com/OpenPhysics/Baton/blob/main/CONVENTIONS.md).
