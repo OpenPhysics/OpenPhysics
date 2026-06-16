@@ -40,17 +40,17 @@ After `./bootstrap.sh`, the workspace holds two infrastructure repos plus the me
 
 | Repo | Type | Purpose |
 |---|---|---|
-| [`.github`](https://github.com/OpenPhysics/.github) | config | Org community-health defaults (license, contributing, code of conduct, security, issue/PR templates, org profile) **plus** shared AI-assistant guidance (`CLAUDE.md`, `skills/`). GitHub requires these in the special `.github` repo. |
-| [`Baton`](https://github.com/OpenPhysics/Baton) | tool | Org **orchestration**: reusable CI/CD workflows, the cross-repo automation scripts, Dependabot templates, the machine-readable repo catalog (`structure/repos.json`), and the GitHub Pages landing page. |
+| [`.github`](https://github.com/OpenPhysics/.github) | config | Org community-health defaults (license, contributing, code of conduct, security, issue/PR templates, org profile) **plus** shared AI-assistant guidance (`CLAUDE.md`). GitHub requires these in the special `.github` repo. |
+| [`Baton`](https://github.com/OpenPhysics/Baton) | tool | Org **orchestration**: reusable CI/CD workflows, the cross-repo automation scripts, Dependabot templates, the machine-readable repo catalog (`structure/repos.json`), fleet conventions (`CONVENTIONS.md`, `ACCESSIBILITY.md`), SceneryStack AI reference docs (`skills/`), and the GitHub Pages landing page. |
 | `TemplateSingleSim` | template | Canonical starting point — new sims are forked from it and start accessible by default. |
 | `DopplerEffect`, `ElectricFieldOfDreams`, `LadyBug`, `LunarLander`, `MazeGame`, `MovingMan`, `OpticsLab`, `OscillationsAndChaos`, `QubitSketch`, `RadioWaves`, `Resonance`, `TheRamp`, `TrackLab`, `WaveComposer` | simulation | SceneryStack TypeScript simulations. |
 | `jscd48`, `tscd48`, `pycd48` | hardware-interface | CD48 hardware libraries (the JS/TS ones use MIT, not the org AGPL default). |
 | `pyro` | tool | Python tooling. |
 
 > **`.github` vs `Baton`:** `.github` holds only what GitHub *must* serve from the special repo
-> (community health + AI guidance). Everything operational — CI workflows, catalog, scripts,
-> Pages — lives in `Baton`. Keep that split: don't add workflows to `.github` or community-health
-> files to `Baton`.
+> (community health + org-wide `CLAUDE.md`). Everything operational — CI workflows, catalog,
+> scripts, fleet conventions, SceneryStack AI skills, Pages — lives in `Baton`. Keep that split:
+> don't add workflows to `.github` or community-health files to `Baton`.
 
 `Baton/structure/repos.json` is the source of truth for what exists in the org. The bootstrapper,
 the compliance audit, the Pages landing page, and every `Baton/scripts/*` tool read it. The
@@ -87,5 +87,5 @@ git switch -c my-change
 
 Shared conventions (tech stack, bootstrap chain, CI wiring) are documented in the org
 [`.github/CLAUDE.md`](https://github.com/OpenPhysics/.github/blob/main/CLAUDE.md);
-accessibility in [`ACCESSIBILITY.md`](ACCESSIBILITY.md); fleet conventions in
-[`CONVENTIONS.md`](CONVENTIONS.md).
+accessibility in [`Baton/ACCESSIBILITY.md`](https://github.com/OpenPhysics/Baton/blob/main/ACCESSIBILITY.md);
+fleet conventions in [`Baton/CONVENTIONS.md`](https://github.com/OpenPhysics/Baton/blob/main/CONVENTIONS.md).
