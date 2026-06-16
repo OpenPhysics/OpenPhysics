@@ -1,34 +1,47 @@
 # OpenPhysics
 
-Superproject (git submodule aggregator) for the [OpenPhysics](https://github.com/OpenPhysics)
-organization. Cloning this repo with submodules gives you the whole org — every simulation, the
-shared infrastructure, and the hardware/tooling libraries — checked out side by side in one
-workspace, which is exactly the layout the Baton scripts expect.
+Thin **workspace bootstrapper** for the [OpenPhysics](https://github.com/OpenPhysics)
+organization. This repo tracks only a README and a `bootstrap.sh` script; it has **no
+submodules**. Running the script clones the whole org — every simulation, the shared
+infrastructure, and the hardware/tooling libraries — side by side in one directory, which is
+exactly the layout the Baton scripts expect.
 
-## Clone
+Each member repo stays a fully independent git repo with its own remote, branches, issues, and
+release cadence. There are no submodule pointers to bump: [`Baton/structure/repos.json`](https://github.com/OpenPhysics/Baton/blob/main/structure/repos.json)
+is the single source of truth for what the org contains.
+
+## Setup
 
 ```bash
-git clone --recurse-submodules git@github.com:OpenPhysics/OpenPhysics.git
+git clone git@github.com:OpenPhysics/OpenPhysics.git
 cd OpenPhysics
-
-# already cloned without --recurse-submodules?
-git submodule update --init --recursive
+./bootstrap.sh
 ```
 
-Update every submodule to the latest commit its branch points at:
+`bootstrap.sh` clones `Baton` (which carries the catalog) and then hands off to
+[`Baton/scripts/clone-fleet.sh`](https://github.com/OpenPhysics/Baton/blob/main/scripts/clone-fleet.sh),
+which clones every repo in the catalog as a sibling directory here. It is **re-runnable** —
+repos already present are skipped:
 
 ```bash
-git submodule update --remote --merge
+./bootstrap.sh                 # clone whatever is missing
+./bootstrap.sh --simulation    # just the simulations
+./bootstrap.sh --update        # also fast-forward repos already cloned
+./bootstrap.sh --dry-run       # show the plan, change nothing
+./bootstrap.sh --https         # clone over HTTPS instead of SSH
 ```
+
+The cloned repos are git-ignored here, so `git status` in this superproject stays clean no
+matter what state the member repos are in.
 
 ## Layout
 
-Two infrastructure repos plus the member repos, all as submodules:
+After `./bootstrap.sh`, the workspace holds two infrastructure repos plus the member repos:
 
-| Submodule | Type | Purpose |
+| Repo | Type | Purpose |
 |---|---|---|
-| [`.github`](.github) | config | Org community-health defaults (license, contributing, code of conduct, security, issue/PR templates, org profile) **plus** shared AI-assistant guidance (`CLAUDE.md`, `skills/`). GitHub requires these in the special `.github` repo. |
-| [`Baton`](Baton) | tool | Org **orchestration**: reusable CI/CD workflows, the cross-repo automation scripts, Dependabot templates, the machine-readable repo catalog (`structure/repos.json`), and the GitHub Pages landing page. |
+| [`.github`](https://github.com/OpenPhysics/.github) | config | Org community-health defaults (license, contributing, code of conduct, security, issue/PR templates, org profile) **plus** shared AI-assistant guidance (`CLAUDE.md`, `skills/`). GitHub requires these in the special `.github` repo. |
+| [`Baton`](https://github.com/OpenPhysics/Baton) | tool | Org **orchestration**: reusable CI/CD workflows, the cross-repo automation scripts, Dependabot templates, the machine-readable repo catalog (`structure/repos.json`), and the GitHub Pages landing page. |
 | `TemplateSingleSim` | template | Canonical starting point — new sims are forked from it and start accessible by default. |
 | `DopplerEffect`, `ElectricFieldOfDreams`, `LadyBug`, `LunarLander`, `MazeGame`, `MovingMan`, `OpticsLab`, `OscillationsAndChaos`, `QubitSketch`, `RadioWaves`, `Resonance`, `TheRamp`, `TrackLab`, `WaveComposer` | simulation | SceneryStack TypeScript simulations. |
 | `jscd48`, `tscd48`, `pycd48` | hardware-interface | CD48 hardware libraries (the JS/TS ones use MIT, not the org AGPL default). |
@@ -39,10 +52,10 @@ Two infrastructure repos plus the member repos, all as submodules:
 > Pages — lives in `Baton`. Keep that split: don't add workflows to `.github` or community-health
 > files to `Baton`.
 
-`Baton/structure/repos.json` is the source of truth for what exists in the org. The compliance
-audit, the Pages landing page, and every `Baton/scripts/*` tool read it. The scripts default
-`OPENPHYSICS_WORKSPACE` to this superproject root, so they find sibling submodules with no extra
-configuration.
+`Baton/structure/repos.json` is the source of truth for what exists in the org. The bootstrapper,
+the compliance audit, the Pages landing page, and every `Baton/scripts/*` tool read it. The
+scripts default `OPENPHYSICS_WORKSPACE` to this directory, so they find sibling repos with no
+extra configuration.
 
 ## Common tasks
 
@@ -57,22 +70,22 @@ Baton/scripts/check-repo-compliance.sh DopplerEffect
 Baton/scripts/fleet-exec.sh --simulation -- npm pkg set dependencies.scenerystack=^3.1.0
 ```
 
-See [`Baton/README.md`](Baton/README.md) for orchestration and [`Baton/scripts/README.md`](Baton/scripts/README.md)
+See [`Baton/README.md`](https://github.com/OpenPhysics/Baton/blob/main/README.md) for
+orchestration and [`Baton/scripts/README.md`](https://github.com/OpenPhysics/Baton/blob/main/scripts/README.md)
 for the full tooling reference.
 
-## Working in a submodule
+## Working in a member repo
 
-Each submodule is an independent git repo with its own remote and branch. Commit and push inside
-the submodule first, then commit the updated pointer (gitlink) in this superproject:
+Each repo is an ordinary, independent git repo — `cd` in, branch, commit, and push as usual.
+Nothing in this superproject needs updating afterward (that's the point of dropping submodules):
 
 ```bash
 cd DopplerEffect
-git switch -c my-change          # branch, don't commit on a detached HEAD
+git switch -c my-change
 # ...edit, commit, push...
-cd ..
-git add DopplerEffect            # records the new submodule SHA
-git commit -m "chore: bump DopplerEffect pointer"
 ```
 
 Shared conventions (tech stack, bootstrap chain, CI wiring) are documented in the org
-[`.github/CLAUDE.md`](.github/CLAUDE.md); accessibility in [`ACCESSIBILITY.md`](ACCESSIBILITY.md).
+[`.github/CLAUDE.md`](https://github.com/OpenPhysics/.github/blob/main/CLAUDE.md);
+accessibility in [`ACCESSIBILITY.md`](ACCESSIBILITY.md); fleet conventions in
+[`CONVENTIONS.md`](CONVENTIONS.md).

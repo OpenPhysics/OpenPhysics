@@ -1,0 +1,13 @@
+# This superproject is a thin workspace bootstrapper: it tracks only its own
+# files. Every member repo is cloned in by ./bootstrap.sh and must stay ignored
+# so `git status` here is unaffected by their state — and so there are no
+# submodule pointers to bump. Ignore everything at the root, then re-include the
+# handful of files this repo actually owns. New repos added to the catalog and
+# cloned in are ignored automatically, with no edit here.
+/*
+!/.gitignore
+!/.claude
+!/README.md
+!/bootstrap.sh
+!/CONVENTIONS.md
+!/ACCESSIBILITY.md
