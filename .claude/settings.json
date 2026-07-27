@@ -16,7 +16,10 @@
       "mcp__playwright__browser_snapshot",
       "Bash(npm run check)",
       "Bash(npm run lint)",
-      "Bash(npm run test)"
+      "Bash(npm run test)",
+      "Bash(npm test)",
+      "Bash(npm test *)",
+      "Bash(scripts/parse-repos.sh *)"
     ]
   }
 }
