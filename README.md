@@ -72,35 +72,26 @@ Baton/scripts/fleet-exec.sh --simulation -- npm pkg set dependencies.scenerystac
 
 ### Pull or push all repos
 
-Run these from the workspace root (after `./bootstrap.sh`). They act on every catalog repo
-already cloned beside `Baton`. See [`Baton/doc/fleet-git.md`](Baton/doc/fleet-git.md) for status,
-fetch, branch filters, and a reusable `fleet` shell function.
+Use [`Baton/scripts/fleet`](Baton/scripts/fleet) — any git command across every local catalog
+checkout. See [`Baton/doc/fleet-git.md`](Baton/doc/fleet-git.md) for details.
 
-**Pull all** — fast-forward every local repo and clone anything missing from the catalog:
+```bash
+# one-time: put `fleet` on your PATH
+ln -sfn ~/OpenPhysics/Baton/scripts/fleet ~/.local/bin/fleet
+
+fleet push
+fleet pull --ff-only
+fleet status -s
+fleet --simulation log -1 --oneline
+```
+
+**Pull all (also clone anything missing from the catalog):**
 
 ```bash
 ./bootstrap.sh --update
 # or: Baton/scripts/clone-fleet.sh --update
 # simulations only: Baton/scripts/clone-fleet.sh --simulation --update
 ```
-
-**Pull all (already cloned, no new clones):**
-
-```bash
-Baton/scripts/parse-repos.sh paths --require-local | while read -r p; do
-  printf '\n== %s ==\n' "$(basename "$p")"; git -C "$p" pull --ff-only
-done
-```
-
-**Push all** — pushes the current branch in each local repo (no-op if nothing to push):
-
-```bash
-Baton/scripts/parse-repos.sh paths --require-local | while read -r p; do
-  printf '\n== %s ==\n' "$(basename "$p")"; git -C "$p" push
-done
-```
-
-Add `--simulation` to `parse-repos.sh` to limit either loop to simulation repos only.
 
 See [`Baton/README.md`](https://github.com/OpenPhysics/Baton/blob/main/README.md) for
 orchestration and [`Baton/scripts/README.md`](https://github.com/OpenPhysics/Baton/blob/main/scripts/README.md)
