@@ -42,7 +42,7 @@ After `./bootstrap.sh`, the workspace holds two infrastructure repos plus the me
 |---|---|---|
 | [`.github`](https://github.com/OpenPhysics/.github) | config | Org community-health defaults (license, contributing, code of conduct, security, issue/PR templates, org profile) **plus** shared AI-assistant guidance (`CLAUDE.md`). GitHub requires these in the special `.github` repo. |
 | [`Baton`](https://github.com/OpenPhysics/Baton) | tool | Org **orchestration**: reusable CI/CD workflows, the cross-repo automation scripts, Dependabot templates, the machine-readable repo catalog (`structure/repos.json`), fleet conventions (`CONVENTIONS.md`, `ACCESSIBILITY.md`), SceneryStack AI reference docs (`skills/`), and the GitHub Pages landing page. |
-| `TemplateSingleSim` | template | Canonical starting point — new sims are forked from it and start accessible by default. |
+| [`TemplateSingleSim`](https://github.com/OpenPhysics/TemplateSingleSim) | template | GitHub template + `npm run rename` / `scaffold-screens` — new sims via **Use this template** or `Baton/scripts/create-sim.sh`. |
 | `ACPhasor`, `BasicCoordinatesAndSeasons`, `DopplerEffect`, `ElectricFieldOfDreams`, `ExtrasolarPlanets`, `HabitableZones`, `LadyBug`, `LightPropagation`, `LunarLander`, `MazeGame`, `MotionsOfTheSun`, `MovingMan`, `OpticsLab`, `OscillationsAndChaos`, `Oscilloscope`, `Precession`, `QubitSketch`, `RadioWaves`, `Resonance`, `RotatingSky`, `SolarSystemModels`, `SternGerlach`, `TheRamp`, `TrackLab`, `VariableStarPhotometry`, `WaveComposer`, `Zenith` | simulation | SceneryStack TypeScript simulations. |
 | `jscd48`, `tscd48`, `pycd48` | hardware-interface | CD48 hardware libraries (the JS/TS ones use MIT, not the org AGPL default). |
 | `pyro` | tool | Python tooling. |
@@ -62,6 +62,9 @@ extra configuration.
 ```bash
 # List the simulation repos
 Baton/scripts/parse-repos.sh names --simulation
+
+# Bootstrap a new sim (optional: --shared-model, --onboard, --pr)
+Baton/scripts/create-sim.sh --repo MyNewSim --name "My New Sim" --screens Intro,Lab --onboard
 
 # Audit README + CI compliance for one sim
 Baton/scripts/check-repo-compliance.sh DopplerEffect
