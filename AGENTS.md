@@ -22,6 +22,7 @@ Authoritative docs are **not** in this superproject — they live in the cloned 
 `Baton/` carries everything operational — don't duplicate it elsewhere:
 
 - **`Baton/structure/repos.json`** — machine-readable catalog of every org repo. The bootstrapper, compliance audit, Pages index, and every `Baton/scripts/*` tool read it. A repo missing from this file is invisible to the tooling.
+- **`Baseline/`** — immutable upstream ground truth for sims (`baselines.json` + `scripts/fetch-baselines.sh` for pinned git clones; non-git snapshots committed in-tree). Listed in the catalog as `type: tool`.
 - **`Baton/.github/workflows/*.yml`** — reusable CI/CD (`ci`, `deploy`, `shared-codeql`, `shared-dependency-review`, `shared-compliance-check`, `fleet-health`, `fleet-exec`, `pages`). Each sim's `ci.yml` calls `uses: OpenPhysics/Baton/.github/workflows/ci.yml@main`.
 - **`Baton/scripts/`** — fleet tooling. High-use commands:
   - `Baton/scripts/parse-repos.sh names --simulation` — list simulation repo names
