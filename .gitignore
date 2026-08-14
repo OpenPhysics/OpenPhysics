@@ -6,6 +6,7 @@
 # cloned in are ignored automatically, with no edit here.
 /*
 !/.gitignore
+!/.gitattributes
 !/.claude
 !/README.md
 !/bootstrap.sh
